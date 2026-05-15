@@ -1,0 +1,13 @@
+
+<suite name="Testing">
+<listeners>
+        <listener class-name="org.listeners.qa.TestListener" />
+    </listeners>
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="org.tests.qa.LoginTest"/>
+      <class name="org.tests.qa.SearchAndCartTest"/>
+      <class name="org.tests.qa.CheckoutTest"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Testing -->
