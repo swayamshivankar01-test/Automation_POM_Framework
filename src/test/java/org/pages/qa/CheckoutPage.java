@@ -2,9 +2,10 @@ package org.pages.qa;
 
 import java.time.Duration;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,42 +15,79 @@ public class CheckoutPage {
     WebDriver driver;
     WebDriverWait wait;
 
-    By termsCheckbox        = By.id("termsofservice");
-    By checkoutButton       = By.id("checkout");
-    By guestCheckoutButton  = By.xpath("//input[@value='Checkout as Guest']");
-    By firstName            = By.id("BillingNewAddress_FirstName");
-    By lastName             = By.id("BillingNewAddress_LastName");
-    By email                = By.id("BillingNewAddress_Email");
-    By country              = By.id("BillingNewAddress_CountryId");
-    By city                 = By.id("BillingNewAddress_City");
-    By address1             = By.id("BillingNewAddress_Address1");
-    By zipCode              = By.id("BillingNewAddress_ZipPostalCode");
-    By phoneNumber          = By.id("BillingNewAddress_PhoneNumber");
-    By billingContinue      = By.xpath("//input[@onclick='Billing.save()']");
-    By shippingAddrContinue = By.cssSelector("input[onclick='Shipping.save()']");
-    By shippingContinue     = By.cssSelector("input[onclick='ShippingMethod.save()']");
-    By cashOnDelivery       = By.id("paymentmethod_0");
-    By paymentContinue      = By.cssSelector("input[onclick='PaymentMethod.save()']");
-    By paymentInfoContinue  = By.cssSelector("input[onclick='PaymentInfo.save()']");
-    By confirmButton        = By.xpath("//input[@value='Confirm']");
-    By confirmationMessage  = By.xpath("//strong[contains(text(),'Your order has been successfully processed!')]");
+    @FindBy(id = "termsofservice")
+    WebElement termsCheckbox;
+
+    @FindBy(id = "checkout")
+    WebElement checkoutButton;
+
+    @FindBy(xpath = "//input[@value='Checkout as Guest']")
+    WebElement guestCheckoutButton;
+
+    @FindBy(id = "BillingNewAddress_FirstName")
+    WebElement firstName;
+
+    @FindBy(id = "BillingNewAddress_LastName")
+    WebElement lastName;
+
+    @FindBy(id = "BillingNewAddress_Email")
+    WebElement email;
+
+    @FindBy(id = "BillingNewAddress_CountryId")
+    WebElement country;
+
+    @FindBy(id = "BillingNewAddress_City")
+    WebElement city;
+
+    @FindBy(id = "BillingNewAddress_Address1")
+    WebElement address1;
+
+    @FindBy(id = "BillingNewAddress_ZipPostalCode")
+    WebElement zipCode;
+
+    @FindBy(id = "BillingNewAddress_PhoneNumber")
+    WebElement phoneNumber;
+
+    @FindBy(xpath = "//input[@onclick='Billing.save()']")
+    WebElement billingContinue;
+
+    @FindBy(css = "input[onclick='Shipping.save()']")
+    WebElement shippingAddrContinue;
+
+    @FindBy(css = "input[onclick='ShippingMethod.save()']")
+    WebElement shippingContinue;
+
+    @FindBy(id = "paymentmethod_0")
+    WebElement cashOnDelivery;
+
+    @FindBy(css = "input[onclick='PaymentMethod.save()']")
+    WebElement paymentContinue;
+
+    @FindBy(css = "input[onclick='PaymentInfo.save()']")
+    WebElement paymentInfoContinue;
+
+    @FindBy(xpath = "//input[@value='Confirm']")
+    WebElement confirmButton;
+
+    @FindBy(xpath = "//strong[contains(text(),'Your order has been successfully processed!')]")
+    WebElement confirmationMessage;
 
     public CheckoutPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        PageFactory.initElements(driver, this); // ✅ initializes all @FindBy fields
     }
 
     public void proceedToCheckout() {
-        WebElement terms = driver.findElement(termsCheckbox);
-        if (!terms.isSelected()) {
-            terms.click();
+        if (!termsCheckbox.isSelected()) {
+            termsCheckbox.click();
         }
-        driver.findElement(checkoutButton).click();
+        checkoutButton.click();
     }
 
     public void continueAsGuest() {
         wait.until(ExpectedConditions.elementToBeClickable(guestCheckoutButton));
-        driver.findElement(guestCheckoutButton).click();
+        guestCheckoutButton.click();
     }
 
     public void enterShippingDetails(
@@ -61,63 +99,63 @@ public class CheckoutPage {
             String userZip,
             String userPhone) {
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(firstName));
+        wait.until(ExpectedConditions.visibilityOf(firstName));
 
-        driver.findElement(firstName).clear();
-        driver.findElement(firstName).sendKeys(userFirstName);
+        firstName.clear();
+        firstName.sendKeys(userFirstName);
 
-        driver.findElement(lastName).clear();
-        driver.findElement(lastName).sendKeys(userLastName);
+        lastName.clear();
+        lastName.sendKeys(userLastName);
 
-        driver.findElement(email).clear();
-        driver.findElement(email).sendKeys(userEmail);
+        email.clear();
+        email.sendKeys(userEmail);
 
-        new Select(driver.findElement(country)).selectByVisibleText("India");
+        new Select(country).selectByVisibleText("India");
 
-        driver.findElement(city).clear();
-        driver.findElement(city).sendKeys(userCity);
+        city.clear();
+        city.sendKeys(userCity);
 
-        driver.findElement(address1).clear();
-        driver.findElement(address1).sendKeys(userAddress);
+        address1.clear();
+        address1.sendKeys(userAddress);
 
-        driver.findElement(zipCode).clear();
-        driver.findElement(zipCode).sendKeys(userZip);
+        zipCode.clear();
+        zipCode.sendKeys(userZip);
 
-        driver.findElement(phoneNumber).clear();
-        driver.findElement(phoneNumber).sendKeys(userPhone);
+        phoneNumber.clear();
+        phoneNumber.sendKeys(userPhone);
     }
 
     public void clickContinueButton() {
-        driver.findElement(billingContinue).click();
+        billingContinue.click();
     }
 
     public void continueShippingAddress() {
         wait.until(ExpectedConditions.elementToBeClickable(shippingAddrContinue));
-        driver.findElement(shippingAddrContinue).click();
+        shippingAddrContinue.click();
     }
 
     public void continueShippingMethod() {
         wait.until(ExpectedConditions.elementToBeClickable(shippingContinue));
-        driver.findElement(shippingContinue).click();
+        shippingContinue.click();
     }
 
     public void selectPaymentMethod() {
-        driver.findElement(cashOnDelivery).click();
-        driver.findElement(paymentContinue).click();
+        cashOnDelivery.click();
+        paymentContinue.click();
     }
 
     public void continuePaymentInfo() {
         wait.until(ExpectedConditions.elementToBeClickable(paymentInfoContinue));
-        driver.findElement(paymentInfoContinue).click();
+        paymentInfoContinue.click();
     }
 
     public void clickConfirmButton() {
         wait.until(ExpectedConditions.elementToBeClickable(confirmButton));
-        driver.findElement(confirmButton).click();
+        confirmButton.click();
     }
 
     public String getConfirmationMessage() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage));
-        return driver.findElement(confirmationMessage).getText();
+        wait.until(ExpectedConditions.visibilityOf(confirmationMessage));
+        return confirmationMessage.getText();
     }
 }
