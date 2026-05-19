@@ -10,4 +10,4 @@
       <class name="org.tests.qa.CheckoutTest"/>
     </classes>
   </test> <!-- Test -->
-</suite> <!-- Testing -->
+</suite> <!-- Testing --> 
